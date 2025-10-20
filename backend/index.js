@@ -1,6 +1,7 @@
 const express = require("express")
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 //routes
 const taskRoutes = require("./routes/task.routes")
@@ -10,6 +11,8 @@ dotenv.config();
 
 
 const server = express();
+// Enable CORS for all routes and origins
+server.use(cors());
 
 // Middleware
 server.use(express.json());

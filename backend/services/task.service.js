@@ -2,7 +2,7 @@ const Task = require("../models/task.model");
 
 class TaskService {
     find = async () => {
-        const task = await TaskService.find({});
+        const task = await Task.find({});
         return task;
     };
 

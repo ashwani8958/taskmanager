@@ -2,12 +2,19 @@ const express = require("express")
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 
+//routes
+const taskRoutes = require("./routes/task.routes")
+
 // Load environment variables from .env file
 dotenv.config();
 
 
 const server = express();
 
+// Middleware
+server.use(express.json());
+
+server.use("/tasks", taskRoutes);
 
 const databaseURI = process.env.MONGO_ATLAS_URI ? process.env.MONGO_ATLAS_URI : process.env.MONGO_LOCAL_URI;
 

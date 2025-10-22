@@ -1,3 +1,26 @@
+# frontend
+
+React (Vite) frontend for taskmanager.
+
+Key files
+- App entry: [frontend/src/main.jsx](frontend/src/main.jsx)
+- Main components:
+  - [`TaskManager`](frontend/src/components/TaskManager.jsx) — fetches tasks and issues API calls (axios calls to `http://localhost:8090/tasks`)
+  - [`TaskModal`](frontend/src/components/TaskModal.jsx) — task form + PDF file input (uses FormData)
+  - [`TaskTable`](frontend/src/components/TaskTable.jsx) — renders tasks and download/edit/delete actions
+- Vite config: [frontend/vite.config.js](frontend/vite.config.js)
+
+Run (development)
+1. cd frontend
+2. install deps: `pnpm install` or `npm install`
+3. run dev server: `pnpm dev` or `npm run dev`
+4. open the Vite URL (default: `http://localhost:5173`)
+
+Notes
+- The frontend expects the backend API at `http://localhost:8090/tasks` as used in [`TaskManager`](frontend/src/components/TaskManager.jsx).
+- File uploads are sent as multipart FormData from the modal; downloads are handled by creating a Blob and an object URL in the browser.
+- Styling is in [frontend/src/index.css](frontend/src/index.css) and [frontend/src/App.css](frontend/src/App.css).
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

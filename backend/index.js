@@ -33,6 +33,7 @@ mongoose.connect(databaseURI, databaseName ? { dbName: databaseName } : {})
         console.error('Error connecting to MongoDB:', error);
     });
 
-server.listen(process.env.PORT, process.env.HOST, () => {
-    console.log(`Server is running on ${process.env.HOST}:${process.env.PORT}`);
+const port = process.env.PORT || 8090;
+server.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });

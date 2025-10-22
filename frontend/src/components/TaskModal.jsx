@@ -1,6 +1,5 @@
-
 import React from "react";
-import { Modal, TextField, Button, Box } from "@mui/material";
+import { Modal, TextField, Button, Box, Typography } from "@mui/material";
 
 const TaskModal = ({
   open,
@@ -12,6 +11,9 @@ const TaskModal = ({
   file,
   isEditing,
 }) => {
+  // Prevent reading from null taskData
+  const { _id = "", title = "", description = "", deadline = "", } = taskData || {};
+
   const formatDateForInput = (dateString) => {
     if (!dateString) return "";
     const date = new Date(dateString);
@@ -34,24 +36,33 @@ const TaskModal = ({
           bgcolor: "background.paper",
           boxShadow: 24,
           p: 4,
+          display: "flex",
+          flexDirection: "column",
+          gap: 2,
         }}
       >
+        <Typography variant="h6" component="h2" sx={{ mb: 1 }}>
+          {isEditing ? "Edit Task" : "Add Task"}
+        </Typography>
+
         <TextField
           label="Title"
           fullWidth
           required
           margin="normal"
-          value={taskData?.title || ""}
+          value={title}
           onChange={(e) => handleChange("title", e.target.value)}
         />
+
         <TextField
           label="Description"
           fullWidth
           required
           margin="normal"
-          value={taskData?.description || ""}
+          value={description}
           onChange={(e) => handleChange("description", e.target.value)}
         />
+
         <TextField
           label="Deadline"
           type="date"
@@ -59,39 +70,42 @@ const TaskModal = ({
           required
           margin="normal"
           InputLabelProps={{ shrink: true }}
-          value={formatDateForInput(taskData?.deadline || "")}
+          value={formatDateForInput(deadline)}
           onChange={(e) => handleChange("deadline", e.target.value)}
         />
+
         {!isEditing && (
           <>
-            <input
-              accept="application/pdf"
-              style={{ display: "none" }}
-              id="upload-file"
-              type="file"
-              onChange={handleFileChange}
-            />
-            <label htmlFor="upload-file">
+            <Button
+              variant="outlined"
+              component="label"
+              sx={{ mt: 2 }}
+            >
+              {file ? file.name : "Upload PDF"}
+              <input
+                type="file"
+                hidden
+                accept="application/pdf"
+                onChange={handleFileChange}
+              />
+            </Button>
+
+            {file && (
               <Button
-                variant="contained"
-                component="span"
-                style={{ marginTop: 16, marginRight: 16 }}
+                variant="text"
+                color="error"
+                onClick={() => handleFileChange({ target: { files: [] } })}
               >
-                {file ? file.name : "Upload PDF"}
+                Delete
               </Button>
-              {file && (
-                <button
-                  sx={{ paddingTop: 4 }}
-                  onClick={() => handleFileChange({ target: { files: [] } })}
-                >
-                  Delete
-                </button>
-              )}
-            </label>
+            )}
           </>
         )}
-        <Box display="flex" justifyContent="space-between" marginTop={2}>
-          <Button onClick={handleClose}>Cancel</Button>
+
+        <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 3, gap: 2 }}>
+          <Button variant="outlined" onClick={handleClose}>
+            Cancel
+          </Button>
           <Button variant="contained" color="primary" onClick={handleSave}>
             {isEditing ? "Update" : "Save"}
           </Button>
@@ -100,4 +114,5 @@ const TaskModal = ({
     </Modal>
   );
 };
+
 export default TaskModal;

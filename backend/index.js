@@ -7,7 +7,9 @@ const cors = require('cors');
 const taskRoutes = require("./routes/task.routes")
 
 // Load environment variables from .env file
-dotenv.config();
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
 
 
 const server = express();
@@ -20,6 +22,11 @@ server.use(express.json());
 server.use("/tasks", taskRoutes);
 
 const databaseURI = process.env.MONGO_ATLAS_URI ? process.env.MONGO_ATLAS_URI : process.env.MONGO_LOCAL_URI;
+
+if (!databaseURI) {
+  console.error("ERROR: Missing MongoDB connection string. Set MONGO_URI environment variable.");
+  process.exit(1);
+}
 
 // Database name (can be provided separately or included in the connection string)
 const databaseName = process.env.MONGO_DB_NAME || undefined;

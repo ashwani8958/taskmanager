@@ -14,7 +14,7 @@ export const TaskManager = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const URL = "http://localhost:8090";
+  const URL = "https://taskmanager-odlf.onrender.com";
   
   useEffect(() => {
     const fetchTasks = async () => {
